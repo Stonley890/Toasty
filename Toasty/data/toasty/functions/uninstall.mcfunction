@@ -1,1 +1,2 @@
 scoreboard objectives remove toasty
+scoreboard objectives remove toastySettings

@@ -1,6 +1,6 @@
 {
     "pack": {
-        "pack_format": 7,
+        "pack_format": 8,
         "description": "Adds toasty, a companion that will follow you through Minecraft!"
     }
 }
