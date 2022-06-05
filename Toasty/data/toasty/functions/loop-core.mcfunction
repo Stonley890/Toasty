@@ -1,11 +1,6 @@
 # Movement
 execute as @e[tag=toasty] at @s unless entity @a[tag=freezing] facing entity @p eyes run tp @s ^ ^ ^0.1 facing entity @p
 execute as @e[tag=toasty,tag=!passive] at @s unless entity @a[tag=freezing] run fill ~1 ~1 ~1 ~-1 ~-1 ~-1 air destroy
-
-# Movement & Actions
-execute as @e[tag=toasty] at @s unless entity @s[tag=frozen] facing entity @p eyes run tp @s ^ ^ ^0.1 facing entity @p
-execute as @e[tag=toasty,tag=!passive] at @s unless entity @s[tag=frozen] run fill ~1 ~1 ~1 ~-1 ~-1 ~-1 air destroy
-
 execute as @e[tag=toasty,tag=!passive] at @s run effect give @e[distance=0..2] minecraft:instant_damage
 execute as @e[tag=toasty,tag=passive] at @s run effect give @a[distance=0..2] minecraft:instant_damage
 execute as @e[tag=toasty] at @s run effect give @a[distance=0..10] minecraft:blindness 2
@@ -15,21 +10,12 @@ execute in overworld unless entity @e[tag=toasty] run execute in the_nether unle
 execute store result score Number toasty run execute if entity @e[tag=toasty] 
 execute at @r if score Number toasty matches 2.. run kill @e[tag=toasty,limit=1,sort=furthest]
 
-
 execute if score unfreezeable toasty matches 0 as @a at @s anchored eyes run function toasty:loop/toastycast
 
 # toastySettings
 
 execute as @a[scores={toastySettings=11}] run scoreboard players set passive toasty 1
 execute as @a[scores={toastySettings=10}] run scoreboard players set passive toasty 0
-
-# Run freezing if enabled
-execute if entity @e[tag=toasty,tag=!unfreezeable] as @a at @s anchored eyes run function toasty:loop/toastycast
-execute if entity @e[tag=toasty,tag=unfreezeable,tag=frozen] run tag @e[tag=toasty,tag=unfreezeable,tag=frozen] remove frozen
-
-# toastySettings
-execute as @a[scores={toastySettings=11}] run tag @e[tag=toasty] add passive
-execute as @a[scores={toastySettings=10}] run tag @e[tag=toasty] remove passive
 
 execute as @a[scores={toastySettings=21}] run scoreboard players set unfreezeable toasty 1
 execute as @a[scores={toastySettings=20}] run scoreboard players set unfreezeable toasty 0
@@ -41,9 +27,7 @@ execute as @a[scores={toastySettings=1..}] run tellraw @s ["","\n",{"text":"> Un
 execute as @a[scores={toastySettings=1..}] if score unfreezeable toasty matches 1 run tellraw @s ["",{"text":"[","color":"dark_green"},{"text":"Enable","underlined":true,"color":"green","clickEvent":{"action":"run_command","value":"/trigger toastySettings set 21"}},{"text":"]","color":"dark_green"}," <> ",{"text":"[","color":"gray"},{"text":"Disable","color":"red","clickEvent":{"action":"run_command","value":"/trigger toastySettings set 20"}},{"text":"]","color":"gray"},"\n"]
 execute as @a[scores={toastySettings=1..}] if score unfreezeable toasty matches 0 run tellraw @s ["",{"text":"[","color":"gray"},{"text":"Enable","color":"green","clickEvent":{"action":"run_command","value":"/trigger toastySettings set 21"}},{"text":"]","color":"gray"}," <> ",{"text":"[","color":"dark_red"},{"text":"Disable","underlined":true,"color":"red","clickEvent":{"action":"run_command","value":"/trigger toastySettings set 20"}},{"text":"]","color":"dark_red"},"\n"]
 
-# Clean up
 scoreboard players reset @a[scores={toastySettings=1..}] toastySettings
 scoreboard players enable @a toastySettings
 
-# Loop
 schedule function toasty:loop-core 1
